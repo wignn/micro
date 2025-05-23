@@ -2,21 +2,26 @@ package handler
 
 import (
 	"net/http"
-	"github.com/wignn/micro/service/common/genproto/orders"
-	"github.com/wignn/micro/service/common/util"
-	"github.com/wignn/micro/service/orders/types"
+
+	"github.com/wignn/micro/services/common/genproto/orders"
+	"github.com/wignn/micro/services/common/util"
+	"github.com/wignn/micro/services/orders/types"
 )
 
 type OrdersHttpHandler struct {
 	ordersService types.OrderService
 }
 
-func NewHttpOrdersService(ordersService types.OrderService) *OrdersHttpHandler {
+func NewHttpOrdersHandler(orderService types.OrderService) *OrdersHttpHandler {
 	handler := &OrdersHttpHandler{
-		ordersService: ordersService,
+		ordersService: orderService,
 	}
 
 	return handler
+}
+
+func (h *OrdersHttpHandler) RegisterRouter(router *http.ServeMux) {
+	router.HandleFunc("POST /orders", h.CreateOrder)
 }
 
 func (h *OrdersHttpHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
