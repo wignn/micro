@@ -1,3 +1,6 @@
+run-orders:
+	@go run service/orders/*.go
+
 gen:
 	@protoc \
 		--proto_path=protobuf protobuf/orders.proto \
